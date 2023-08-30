@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  auctionservice:
+    container_name: auctionservice
+    image: ${DOCKER_REGISTRY-}auctionservice
+    build:
+      context: .
+      dockerfile: Backend/AuctionService/Dockerfile
+    depends_on: 
+      - postgres
+  postgres:
+    container_name: postgres
+    image: postgres
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+volumes:
+  pgdata:
+  pgadmindata:

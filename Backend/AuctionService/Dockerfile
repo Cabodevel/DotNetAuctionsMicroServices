@@ -9,7 +9,7 @@ WORKDIR /src
 COPY ["src/Backend/AuctionService/AuctionService.csproj", "src/Backend/AuctionService/"]
 RUN dotnet restore "src/Backend/AuctionService/AuctionService.csproj"
 COPY . .
-WORKDIR "/src/src/Backend/AuctionService"
+WORKDIR "/src/Backend/AuctionService"
 RUN dotnet build "AuctionService.csproj" -c Release -o /app/build
 
 FROM build AS publish

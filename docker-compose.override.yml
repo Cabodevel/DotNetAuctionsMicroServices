@@ -1,0 +1,31 @@
+version: '3.4'
+
+services:
+  auctionservice:
+    hostname: auctionservice
+    pull_policy: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=postgres;User Id=postgres;Password=postgrespw;Database=auctions
+    ports: 
+      - 8000:80
+  postgres:
+    hostname: postgres
+    pull_policy: if_not_present
+    environment:
+      - POSTGRES_PASSWORD=postgrespw
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  pgadmin:
+     pull_policy: if_not_present
+     environment:
+       - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+       - PGADMIN_DEFAULT_PASSWORD=123456
+     ports:
+       - 8082:80
+     volumes: 
+       - pgadmindata:/var/lib/pgadmin
+        
+
