@@ -6,11 +6,11 @@ services:
     pull_policy: always
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=postgres;User Id=postgres;Password=postgrespw;Database=auctions
+      - ConnectionStrings__DefaultConnection=Server=auction_postgres;User Id=postgres;Password=postgrespw;Database=auctions
     ports: 
       - 8000:80
-  postgres:
-    hostname: postgres
+  auction_postgres:
+    hostname: auction_postgres
     pull_policy: if_not_present
     environment:
       - POSTGRES_PASSWORD=postgrespw
@@ -27,5 +27,13 @@ services:
        - 8082:80
      volumes: 
        - pgadmindata:/var/lib/pgadmin
-        
+  search_mongodb:
+    hostname: search_mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=mongopw
+    ports:
+      - 27999:27017
+    volumes:
+      - mongodata:/var/lib/mongodb/data
 

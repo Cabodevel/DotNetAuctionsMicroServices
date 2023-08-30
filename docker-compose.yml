@@ -8,13 +8,17 @@ services:
       context: .
       dockerfile: Backend/AuctionService/Dockerfile
     depends_on: 
-      - postgres
-  postgres:
-    container_name: postgres
+      - auction_postgres
+  auction_postgres:
+    container_name: auction_postgres
     image: postgres
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
+  search_mongodb:
+    container_name: search_mongo
+    image: mongo
 volumes:
   pgdata:
   pgadmindata:
+  mongodata:

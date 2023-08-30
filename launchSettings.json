@@ -8,7 +8,8 @@
       "serviceActions": {
         "auctionservice": "StartDebugging",
         "pgadmin": "StartWithoutDebugging",
-        "postgres": "StartWithoutDebugging"
+        "auction_postgres": "StartWithoutDebugging",
+        "search_mongodb": "StartWithoutDebugging"
       }
     }
   }
