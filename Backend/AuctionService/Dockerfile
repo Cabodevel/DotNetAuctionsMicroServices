@@ -6,8 +6,8 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["src/Backend/AuctionService/AuctionService.csproj", "src/Backend/AuctionService/"]
-RUN dotnet restore "src/Backend/AuctionService/AuctionService.csproj"
+COPY ["Backend/AuctionService/AuctionService.csproj", "Backend/AuctionService/"]
+RUN dotnet restore "Backend/AuctionService/AuctionService.csproj"
 COPY . .
 WORKDIR "/src/Backend/AuctionService"
 RUN dotnet build "AuctionService.csproj" -c Release -o /app/build

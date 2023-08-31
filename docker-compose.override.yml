@@ -15,6 +15,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Server=auction_postgres;User Id=postgres;Password=postgrespw;Database=auctions
       - Rabbitmq__Host=apprabbitmq
+      - Rabbitmq__Port=5672
     ports: 
       - 8000:80
   auction_postgres:
@@ -51,6 +52,7 @@ services:
       - ConnectionStrings__MongoDbConnection=mongodb://root:mongopw@search_mongo
       - AuctionServiceUrl=http://auctionservice
       - Rabbitmq__Host=apprabbitmq
+      - Rabbitmq__Port=5672
     ports: 
       - 8001:80
   search_mongo:

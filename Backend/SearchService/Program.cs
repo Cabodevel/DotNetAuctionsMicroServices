@@ -23,11 +23,12 @@ builder.Services.AddMassTransit(x =>
     x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("search", false));
     x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host(builder.Configuration["Rabbitmq:Host"], "/", h =>
+        cfg.Host(builder.Configuration["Rabbitmq:Host"], Convert.ToUInt16(builder.Configuration["Rabbitmq:Port"]), "/", h =>
         {
             h.Username(builder.Configuration["Rabbitmq:User"]);
             h.Password(builder.Configuration["Rabbitmq:Passw"]);
         });
+        cfg.ConfigureEndpoints(context);
     });
 });
 
