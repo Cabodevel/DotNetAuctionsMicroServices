@@ -3,29 +3,16 @@ version: '3.4'
 services:
   auctionservice:
     container_name: auctionservice
-    image: ${DOCKER_REGISTRY-}auctionservice
-    build:
-      context: .
-      dockerfile: Backend/AuctionService/Dockerfile
-    depends_on: 
-      - auction_postgres
   auction_postgres:
     container_name: auction_postgres
-    image: postgres
   pgadmin:
     container_name: pgadmin
-    image: dpage/pgadmin4
   searchservice:
-    image: ${DOCKER_REGISTRY-}searchservice
     container_name: search_service
-    build:
-      context: .
-      dockerfile: Backend/SearchService/Dockerfile
-    depends_on: 
-      - search_mongo
   search_mongo:
     container_name: search_mongo
-    image: mongo
+  apprabbitmq:
+    container_name: apprabbitmq
 volumes:
   pgdata:
   pgadmindata:

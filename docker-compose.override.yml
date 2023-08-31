@@ -2,14 +2,23 @@ version: '3.4'
 
 services:
   auctionservice:
+    image: ${DOCKER_REGISTRY-}auctionservice
+    build:
+      context: .
+      dockerfile: Backend/AuctionService/Dockerfile
+    depends_on: 
+      - auction_postgres
+      - apprabbitmq
     hostname: auctionservice
     pull_policy: always
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Server=auction_postgres;User Id=postgres;Password=postgrespw;Database=auctions
+      - Rabbitmq__Host=apprabbitmq
     ports: 
       - 8000:80
   auction_postgres:
+    image: postgres
     hostname: auction_postgres
     pull_policy: if_not_present
     environment:
@@ -19,6 +28,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
   pgadmin:
+     image: dpage/pgadmin4
      pull_policy: if_not_present
      environment:
        - PGADMIN_DEFAULT_EMAIL=admin@admin.com
@@ -28,14 +38,23 @@ services:
      volumes: 
        - pgadmindata:/var/lib/pgadmin
   searchservice:
+    image: ${DOCKER_REGISTRY-}searchservice
+    build:
+      context: .
+      dockerfile: Backend/SearchService/Dockerfile
+    depends_on: 
+      - search_mongo
+      - apprabbitmq
     hostname: search__service
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__MongoDbConnection=mongodb://root:mongopw@search_mongo
       - AuctionServiceUrl=http://auctionservice
+      - Rabbitmq__Host=apprabbitmq
     ports: 
       - 8001:80
   search_mongo:
+    image: mongo
     hostname: search_mongo
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
@@ -44,4 +63,10 @@ services:
       - 27999:27017
     volumes:
       - mongodata:/var/lib/mongodb/data
+  apprabbitmq:
+    hostname: apprabbitmq
+    image: rabbitmq:3-management-alpine
+    ports: 
+      - 56720:5672
+      - 58000:15672 
 
