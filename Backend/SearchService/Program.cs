@@ -1,11 +1,18 @@
+using Polly;
+using Polly.Extensions.Http;
 using SearchService.Data;
+using SearchService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+builder.Services.AddHttpClient<AuctionSvcHttpClient>()
+    .AddPolicyHandler(GetPolicy());
+
+
 builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
@@ -16,13 +23,24 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-try
+app.Lifetime.ApplicationStarted.Register(async () =>
 {
-	await app.InitDb();
-}
-catch (Exception e)
-{
-	Console.WriteLine(e);
-}
+    try
+    {
+        await app.InitDb();
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e);
+    }
+
+});
+
 
 app.Run();
+
+
+static IAsyncPolicy<HttpResponseMessage> GetPolicy() =>
+    HttpPolicyExtensions
+    .HandleTransientHttpError()
+    .WaitAndRetryForeverAsync(_ => TimeSpan.FromSeconds(3));
