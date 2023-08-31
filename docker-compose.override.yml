@@ -31,7 +31,7 @@ services:
     hostname: search__service
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__MongoDbConnection=mongodb://root:mongopw@search_mongo:27999
+      - ConnectionStrings__MongoDbConnection=mongodb://root:mongopw@search_mongo
     ports: 
       - 8001:80
   search_mongo:
