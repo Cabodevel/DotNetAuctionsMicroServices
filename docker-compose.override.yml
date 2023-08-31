@@ -27,7 +27,14 @@ services:
        - 8082:80
      volumes: 
        - pgadmindata:/var/lib/pgadmin
-  search_mongodb:
+  searchservice:
+    hostname: search__service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__MongoDbConnection=mongodb://root:mongopw@search_mongo:27999
+    ports: 
+      - 8001:80
+  search_mongo:
     hostname: search_mongo
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root

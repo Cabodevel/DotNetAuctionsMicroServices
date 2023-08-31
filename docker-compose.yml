@@ -15,7 +15,15 @@ services:
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
-  search_mongodb:
+  searchservice:
+    image: ${DOCKER_REGISTRY-}searchservice
+    container_name: search_service
+    build:
+      context: .
+      dockerfile: Backend/SearchService/Dockerfile
+    depends_on: 
+      - search_mongo
+  search_mongo:
     container_name: search_mongo
     image: mongo
 volumes:

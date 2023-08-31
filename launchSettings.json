@@ -9,7 +9,8 @@
         "auctionservice": "StartDebugging",
         "pgadmin": "StartWithoutDebugging",
         "auction_postgres": "StartWithoutDebugging",
-        "search_mongodb": "StartWithoutDebugging"
+        "search_mongo": "StartWithoutDebugging",
+        "searchservice": "StartDebugging"
       }
     }
   }
