@@ -28,6 +28,13 @@ builder.Services.AddMassTransit(x =>
             h.Username(builder.Configuration["Rabbitmq:User"]);
             h.Password(builder.Configuration["Rabbitmq:Passw"]);
         });
+
+        cfg.ReceiveEndpoint("search-auction-created", e =>
+        {
+            e.UseMessageRetry(r => r.Interval(5, 5));
+            e.ConfigureConsumer<AuctionCreatedConsumer>(context);
+        });
+
         cfg.ConfigureEndpoints(context);
     });
 });
