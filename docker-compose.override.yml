@@ -18,6 +18,23 @@ services:
       - Rabbitmq__Port=5672
     ports: 
       - 8000:80
+  searchservice:
+    image: ${DOCKER_REGISTRY-}searchservice
+    build:
+      context: .
+      dockerfile: Backend/SearchService/Dockerfile
+    depends_on: 
+      - search_mongo
+      - apprabbitmq
+    hostname: search__service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__MongoDbConnection=mongodb://root:mongopw@search_mongo
+      - AuctionServiceUrl=http://auctionservice
+      - Rabbitmq__Host=apprabbitmq
+      - Rabbitmq__Port=5672
+    ports: 
+      - 8001:80
   auction_postgres:
     image: postgres
     hostname: auction_postgres
@@ -38,23 +55,6 @@ services:
        - 8082:80
      volumes: 
        - pgadmindata:/var/lib/pgadmin
-  searchservice:
-    image: ${DOCKER_REGISTRY-}searchservice
-    build:
-      context: .
-      dockerfile: Backend/SearchService/Dockerfile
-    depends_on: 
-      - search_mongo
-      - apprabbitmq
-    hostname: search__service
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__MongoDbConnection=mongodb://root:mongopw@search_mongo
-      - AuctionServiceUrl=http://auctionservice
-      - Rabbitmq__Host=apprabbitmq
-      - Rabbitmq__Port=5672
-    ports: 
-      - 8001:80
   search_mongo:
     image: mongo
     hostname: search_mongo

@@ -21,6 +21,11 @@ namespace SearchService.Consumers
 
             var item = _mapper.Map<Item>(context.Message);
 
+            if(item.Model == "foo")
+            {
+                throw new ArgumentException();
+            }
+
             await item.SaveAsync();
         }
     }
