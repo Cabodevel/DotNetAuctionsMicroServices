@@ -35,6 +35,20 @@ services:
       - Rabbitmq__Port=5672
     ports: 
       - 8001:80
+  identityservice:
+    image: ${DOCKER_REGISTRY-}identityservice
+    build:
+      context: .
+      dockerfile: Backend/IdentityService/Dockerfile
+    depends_on: 
+      - auction_postgres
+    hostname: identityservice
+    pull_policy: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=auction_postgres;User Id=postgres;Password=postgrespw;Database=auctions
+    ports: 
+      - 8002:80
   auction_postgres:
     image: postgres
     hostname: auction_postgres

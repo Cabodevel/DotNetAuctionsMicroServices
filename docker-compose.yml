@@ -3,12 +3,15 @@ version: '3.4'
 services:
   auctionservice:
     container_name: auctionservice
+  searchservice:
+    container_name: search_service
+  identityservice:
+    container_name: identityservice
   auction_postgres:
     container_name: auction_postgres
   pgadmin:
     container_name: pgadmin
-  searchservice:
-    container_name: search_service
+  
   search_mongo:
     container_name: search_mongo
   apprabbitmq:
