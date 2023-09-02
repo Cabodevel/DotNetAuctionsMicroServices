@@ -16,6 +16,7 @@ services:
       - ConnectionStrings__DefaultConnection=Server=auction_postgres;User Id=postgres;Password=postgrespw;Database=auctions
       - Rabbitmq__Host=apprabbitmq
       - Rabbitmq__Port=5672
+      - IdentityService__Url=http://identityservice 
     ports: 
       - 8000:80
   searchservice:

@@ -5,6 +5,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Contracts.Actions;
 using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -54,12 +55,13 @@ namespace AuctionService.Controllers
 
             return _mapper.Map<AuctionDto>(auction);
         }
-
+        
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<AuctionDto>> CreateAuction(CreateAuctionDto auctionDto)
         {
             var auction = _mapper.Map<Auction>(auctionDto);
-            auction.Seller = "test";
+            auction.Seller = User.Identity.Name;
 
             _context.Add(auction);
 
@@ -76,6 +78,7 @@ namespace AuctionService.Controllers
                 : BadRequest("Could not save changes");
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateAuction(Guid id, UpdateAuctionDto auctionDto)
         {
@@ -86,6 +89,11 @@ namespace AuctionService.Controllers
             {
                 return BadRequest("Auction not found");
             }
+
+            if(auction.Seller != User.Identity.Name)
+            {
+                Unauthorized("Invalid user to update auction");
+            } 
 
             auction.Item.Make = auctionDto.Make ?? auction.Item.Make;
             auction.Item.Model = auctionDto.Model ?? auction.Item.Model;
@@ -102,6 +110,7 @@ namespace AuctionService.Controllers
                 : BadRequest("Problem saving changes");
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAuction(Guid id)
         {
@@ -111,6 +120,11 @@ namespace AuctionService.Controllers
             if (auction == null)
             {
                 return BadRequest("Auction not found");
+            }
+
+            if (auction.Seller != User.Identity.Name)
+            {
+                Unauthorized("Invalid user to delete auction");
             }
 
             _context.Auctions.Remove(auction);
