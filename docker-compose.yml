@@ -1,10 +1,12 @@
 version: '3.4'
 
 services:
+  gateway:
+    container_name: gateway
   auctionservice:
     container_name: auctionservice
   searchservice:
-    container_name: search_service
+    container_name: searchservice
   identityservice:
     container_name: identityservice
   auction_postgres:

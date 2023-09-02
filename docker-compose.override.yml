@@ -1,6 +1,14 @@
 version: '3.4'
 
 services:
+  gateway:
+    image: ${DOCKER_REGISTRY-}gatewayservice
+    build:
+      context: .
+      dockerfile: Backend/Shared/GatewayService/Dockerfile
+    pull_policy: always
+    ports:
+      - 7999:80
   auctionservice:
     image: ${DOCKER_REGISTRY-}auctionservice
     build:
@@ -16,7 +24,6 @@ services:
       - ConnectionStrings__DefaultConnection=Server=auction_postgres;User Id=postgres;Password=postgrespw;Database=auctions
       - Rabbitmq__Host=apprabbitmq
       - Rabbitmq__Port=5672
-      - IdentityService__Url=http://identityservice 
     ports: 
       - 8000:80
   searchservice:
