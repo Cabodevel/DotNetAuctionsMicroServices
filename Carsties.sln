@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityService", "Backend\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{8918515B-77D0-4BE2-9B0B-893573E54B8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GatewayService", "Backend\Shared\GatewayService\GatewayService.csproj", "{E410B6D6-838E-4A50-8DD4-397F700591E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GatewayService", "Backend\Shared\GatewayService\GatewayService.csproj", "{E410B6D6-838E-4A50-8DD4-397F700591E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
