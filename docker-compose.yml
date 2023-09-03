@@ -13,7 +13,6 @@ services:
     container_name: auction_postgres
   pgadmin:
     container_name: pgadmin
-  
   search_mongo:
     container_name: search_mongo
   apprabbitmq:
